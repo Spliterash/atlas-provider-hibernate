@@ -10,8 +10,12 @@ plugins {
     kotlin("jvm")
 }
 
-group = "io.atlasgo"
-version = System.getenv("PROVIDER_VERSION") ?: "0.0.0-SNAPSHOT"
+group = "io.github.spliterash"
+version = System.getenv("PROVIDER_VERSION") ?: "0.0.1"
+
+// Pinned upstream hibernate-provider artifact bundled into the shadow jar.
+// Bumped manually when syncing the fork with upstream.
+val hibernateProviderVersion = "3.9.0"
 
 repositories {
     mavenCentral()
@@ -45,13 +49,13 @@ val publishToProduction = project.hasProperty("production")
 
 gradlePlugin {
     plugins {
-        create("io.atlasgo.hibernate-provider-gradle-plugin") {
-            website = "https://github.com/ariga/atlas-provider-hibernate"
-            vcsUrl = "https://github.com/ariga/atlas-provider-hibernate.git"
-            description = "Atlas plugin, used as a database schema provider to Atlas."
-            displayName = "Atlas Hibernate Provider"
+        create("io.github.spliterash.hibernate-provider") {
+            website = "https://github.com/Spliterash/atlas-provider-hibernate"
+            vcsUrl = "https://github.com/Spliterash/atlas-provider-hibernate.git"
+            description = "Atlas plugin, used as a database schema provider to Atlas. Fork of io.atlasgo.hibernate-provider-gradle-plugin with Windows long-path fix."
+            displayName = "Atlas Hibernate Provider (Spliterash fork)"
             tags = listOf("database", "hibernate", "atlas", "migrations", "schema")
-            id = "io.atlasgo.hibernate-provider-gradle-plugin"
+            id = "io.github.spliterash.hibernate-provider"
             implementationClass = "io.atlasgo.gradle.HibernateProvider"
         }
     }
@@ -70,7 +74,7 @@ dependencies {
     compileOnly("org.hibernate.orm:hibernate-core:6.1.7.Final")
     implementation("com.github.ajalt.clikt:clikt:4.2.1")
     implementation(gradleApi())
-    implementation("io.atlasgo:hibernate-provider:$version")
+    implementation("io.atlasgo:hibernate-provider:$hibernateProviderVersion")
     runtimeOnly(kotlin("stdlib"))
 }
 

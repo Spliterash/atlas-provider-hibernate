@@ -1,0 +1,9 @@
+# JitPack build configuration (https://jitpack.io)
+# Triggered on first consumer request for a given git tag.
+# Produces: com.github.Spliterash.atlas-provider-hibernate:hibernate-provider-gradle-plugin:<tag>
+
+jdk:
+  - openjdk11
+
+install:
+  - "cd gradle-plugin && PROVIDER_VERSION=${VERSION#v} ./gradlew publishToMavenLocal --no-daemon"
